@@ -11,7 +11,32 @@ const Register = () => {
   const [error, setError] = useState(null);
 
   const handleRegister = async () => {
-    // ... (your existing registration logic)
+    try {
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const response = await fetch(`${apiUrl}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Registration failed. Please try again.');
+      }
+
+      // Registration successful, retrieve the accessToken from the response
+      const data = await response.json();
+      const accessToken = data.accessToken;
+
+      // Save the accessToken in localStorage
+      localStorage.setItem('accessToken', accessToken);
+
+      // Navigate to the dashboard
+      navigate('/dashboard');
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (

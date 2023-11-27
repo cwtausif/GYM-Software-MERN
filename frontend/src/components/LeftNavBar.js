@@ -61,6 +61,14 @@ const LeftNavBar = ({ leftNavBarOpen, onLogout }) => {
           <ListItemText primary="Attendance" />
         </ListItem>
 
+        {/* Membership Duration */}
+        <ListItem button>
+          <ListItemIcon>
+            <Group />
+          </ListItemIcon>
+          <ListItemText primary="Membership Duration" />
+        </ListItem>
+
         {/* Membership Type Management */}
         <ListItem button>
           <ListItemIcon>
