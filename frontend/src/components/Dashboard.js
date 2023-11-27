@@ -1,12 +1,14 @@
 // frontend/src/components/Dashboard.js
 import React, { useState, useEffect } from 'react';
-import { Button, Typography, Container } from '@mui/material';
+import { CssBaseline, Container, Typography, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import LeftNavBar from './LeftNavBar';
 import TopBar from './TopBar';
+import MainContent from './MainContent';
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
+  const [leftNavBarOpen, setLeftNavBarOpen] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,6 +32,10 @@ const Dashboard = () => {
     }
   }, [navigate]);
 
+  const handleToggleLeftNavBar = () => {
+    setLeftNavBarOpen(!leftNavBarOpen);
+  };
+
   const handleLogout = () => {
     // Clear the access token from localStorage
     localStorage.removeItem('accessToken');
@@ -38,30 +44,28 @@ const Dashboard = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <div>
-        {user ? (
-          <>
-            <TopBar />
-            <LeftNavBar />
-            <Typography variant="h5">Welcome, {user.name}!</Typography>
-            <Button
-              type="button"
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={handleLogout}
-            >
-              Logout
-            </Button>
-          </>
-        ) : (
-          <Typography variant="body2" color="error">
-            You are not authenticated. Redirecting to login...
-          </Typography>
-        )}
-      </div>
-    </Container>
+    <>
+      <CssBaseline />
+      <Container maxWidth="xl" style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
+        <Grid container>
+          {leftNavBarOpen && (
+            <Grid item xs={2}>
+              <LeftNavBar />
+            </Grid>
+          )}
+          <Grid item xs>
+            <TopBar toggleLeftNavBar={handleToggleLeftNavBar} />
+            {user ? (
+              <MainContent user={user} handleLogout={handleLogout} />
+            ) : (
+              <Typography variant="body2" color="error">
+                You are not authenticated. Redirecting to login...
+              </Typography>
+            )}
+          </Grid>
+        </Grid>
+      </Container>
+    </>
   );
 };
 

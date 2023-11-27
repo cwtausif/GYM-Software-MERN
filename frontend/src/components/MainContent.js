@@ -1,26 +1,23 @@
-// frontend/src/components/Dashboard.js
+// frontend/src/components/MainContent.js
 import React from 'react';
-import { Container, Grid } from '@mui/material';
-import TopBar from './TopBar';
-import LeftNavBar from './LeftNavBar';
-import MainContent from './MainContent';
+import { Typography, Button } from '@mui/material';
 
-const Dashboard = () => {
+const MainContent = ({ user, handleLogout }) => {
   return (
-    <>
-      <TopBar />
-      <Container component="main" maxWidth="xl">
-        <Grid container>
-          <Grid item xs={2}>
-            <LeftNavBar />
-          </Grid>
-          <Grid item xs={10}>
-            <MainContent />
-          </Grid>
-        </Grid>
-      </Container>
-    </>
+    <div style={{ padding: '20px', flexGrow: 1 }}>
+      <Typography variant="h5">Welcome, {user.name}!</Typography>
+      <Button
+        type="button"
+        fullWidth
+        variant="contained"
+        color="primary"
+        onClick={handleLogout}
+        style={{ marginTop: '20px' }}
+      >
+        Logout
+      </Button>
+    </div>
   );
 };
 
-export default Dashboard;
+export default MainContent;
